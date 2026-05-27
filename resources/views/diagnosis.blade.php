@@ -26,33 +26,37 @@
                     <form action="{{ route('diagnosis.hasil') }}" method="post">
                         @csrf
 
-                        <table class="table">
-                            <thead>
+                        <table class="table table-bordered table-striped" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                            <thead class="bg-primary text-white">
                                 <tr>
-                                    <th>Gejala Yang diderita Pasien</th>
-                                    <th>Kode Gejala</th>
-                                    <th width="300">Bobot Nilai Tingkat keparahan Gejala</th>
+                                    <th class="text-center" width="5%">No</th>
+                                    <th width="10%">Kode</th>
+                                    <th width="40%">Gejala Yang Dialami</th>
+                                    <th class="text-center" width="20%">Animasi Pendukung</th>
+                                    <th width="25%">Tingkat Keyakinan Anda</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($gejala as $row)
                                     <tr>
-                                        
-                                        <td>{{ $row->nama_gejala }}</td>
-                                        <td>{{ $row->kode_gejala }}</td>
-                                        <td>
-                                            <select class="form-control" name="gejala[{{ $row->id }}]" id="gejala_{{ $row->id }}">
-                                                <option value="0" {{ old('gejala.' . $row->id) == '0' ? 'selected' : '' }}></option>
-                                                <option value="1" {{ old('gejala.' . $row->id) == '1' ? 'selected' : '' }}>1</option>
-                                                <option value="2" {{ old('gejala.' . $row->id) == '2' ? 'selected' : '' }}>2</option>
-                                                <option value="3" {{ old('gejala.' . $row->id) == '3' ? 'selected' : '' }}>3</option>
-                                                <option value="4" {{ old('gejala.' . $row->id) == '4' ? 'selected' : '' }}>4</option>
-                                                <option value="5" {{ old('gejala.' . $row->id) == '5' ? 'selected' : '' }}>5</option>
-                                                <option value="6" {{ old('gejala.' . $row->id) == '6' ? 'selected' : '' }}>6</option>
-                                                <option value="7" {{ old('gejala.' . $row->id) == '7' ? 'selected' : '' }}>7</option>
-                                                <option value="8" {{ old('gejala.' . $row->id) == '8' ? 'selected' : '' }}>8</option>
-                                                <option value="9" {{ old('gejala.' . $row->id) == '9' ? 'selected' : '' }}>9</option>
-                                                <option value="10" {{ old('gejala.' . $row->id) == '10' ? 'selected' : '' }}>10</option>
+                                        <td class="text-center font-weight-bold">{{ $loop->iteration }}</td>
+                                        <td class="font-weight-bold"><span class="badge badge-secondary p-2">{{ $row->kode_gejala }}</span></td>
+                                        <td class="font-weight-600" style="vertical-align: middle;">{{ $row->nama_gejala }}</td>
+                                        <td class="text-center" style="vertical-align: middle;">
+                                            @if ($row->animasi)
+                                                <img src="{{ Storage::url($row->animasi) }}" alt="Animasi {{ $row->kode_gejala }}" style="max-height: 80px; max-width: 140px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+                                            @else
+                                                <div class="text-muted"><i class="fas fa-gamepad fa-2x text-gray-300"></i></div>
+                                            @endif
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            <select class="form-control" name="gejala[{{ $row->id }}]" id="gejala_{{ $row->id }}" style="border-radius: 8px; border: 1.5px solid #d1d3e2;">
+                                                <option value="0" {{ old('gejala.' . $row->id) == '0' ? 'selected' : '' }}>-- Pilih Keyakinan --</option>
+                                                <option value="0.2" {{ old('gejala.' . $row->id) == '0.2' ? 'selected' : '' }}>Kurang Yakin</option>
+                                                <option value="0.4" {{ old('gejala.' . $row->id) == '0.4' ? 'selected' : '' }}>Cukup Yakin</option>
+                                                <option value="0.6" {{ old('gejala.' . $row->id) == '0.6' ? 'selected' : '' }}>Yakin</option>
+                                                <option value="0.8" {{ old('gejala.' . $row->id) == '0.8' ? 'selected' : '' }}>Sangat Yakin</option>
+                                                <option value="1.0" {{ old('gejala.' . $row->id) == '1.0' ? 'selected' : '' }}>Sangat Yakin Sekali / Pasti</option>
                                             </select>
                                         </td>
                                     </tr>

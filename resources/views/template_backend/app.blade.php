@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('assets/select2/bootstrap-4-theme/select2-bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/bootstrap-select/css/bootstrap-select.min.css') }}">
     <!-- TinyMCE -->
-    <script src="https://cdn.tiny.cloud/1/0hp7e82zfvjc3v6kerkotw4os3t0dwgxpomrnnq5jpjfwtwz/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/95z1wlpdzasy0ulf89wyn6yu2avjhespgwuamxxar1gnlmh5/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
 
     <link rel="shortcut icon" href="{{ asset('assets/images/SkriningApp.png') }}" type="image/x-icon">
@@ -182,9 +182,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('penyakit.index') }}" class="nav-link {{ request()->segment(1) == 'penyakit' ? 'active' : '' }}">
+                                <a href="{{ route('kecanduan.index') }}" class="nav-link {{ request()->segment(1) == 'kecanduan' ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-book-medical"></i>
-                                    <p>Data Jenis Kecanduan</p>
+                                    <p>Data Tingkat Kecanduan</p>
                                 </a>
                             </li>
                             <li class="nav-item">

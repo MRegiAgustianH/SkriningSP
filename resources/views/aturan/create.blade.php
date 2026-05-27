@@ -118,23 +118,23 @@
                         <form action="{{ route('aturan.store') }}" method="post">
                             @csrf
                             
-                            <!-- Input Pilih Penyakit -->
+                            <!-- Input Pilih Kecanduan -->
                             <div class="form-group mb-4">
-                                <label for="penyakit_id" class="form-label">Tingkat Kecanduan (Penyakit)</label>
+                                <label for="kecanduan_id" class="form-label">Tingkat Kecanduan</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-book-medical"></i></span>
                                     </div>
-                                    <select name="penyakit_id" id="penyakit_id" class="form-control select2 @error('penyakit_id') is-invalid @enderror" required>
+                                    <select name="kecanduan_id" id="kecanduan_id" class="form-control select2 @error('kecanduan_id') is-invalid @enderror" required>
                                         <option value="">-- Pilih Tingkat Kecanduan --</option>
-                                        @foreach ($penyakit as $row)
-                                            <option value="{{ $row->id }}" {{ old('penyakit_id') == $row->id ? 'selected' : '' }}>
-                                                {{ $row->kode_penyakit . ' - ' . $row->nama_penyakit }}
+                                        @foreach ($kecanduan as $row)
+                                            <option value="{{ $row->id }}" {{ old('kecanduan_id') == $row->id ? 'selected' : '' }}>
+                                                {{ $row->kode_kecanduan . ' - ' . $row->nama_kecanduan }}
                                             </option>
                                         @endforeach
                                     </select>
                                     
-                                    @error('penyakit_id')
+                                    @error('kecanduan_id')
                                         <div class="invalid-feedback d-block mt-2">
                                             <i class="fas fa-exclamation-circle mr-1"></i> {{ $message }}
                                         </div>

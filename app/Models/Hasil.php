@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Hasil extends Model
 {
     protected $table = 'hasil';
-    protected $fillable = ['nama', 'no_hp', 'jenis_kelamin', 'alamat', 'gejala', 'penyakit_id', 'cf'];
+    protected $fillable = ['nama', 'no_hp', 'jenis_kelamin', 'alamat', 'gejala', 'kecanduan_id', 'cf'];
 
-    public function penyakit()
+    public function kecanduan()
     {
-        return $this->belongsTo(Penyakit::class);
+        return $this->belongsTo(Kecanduan::class);
     }
 }

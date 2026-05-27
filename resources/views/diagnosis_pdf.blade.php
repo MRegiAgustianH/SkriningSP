@@ -67,8 +67,8 @@
     </style>
 </head>
 
-<body>
-    <h3 class="center">HASIL DIAGNOSA</h3>
+ <body>
+    <h3 class="center">HASIL SKRINING KECANDUAN GAME ONLINE</h3>
     <table>
         <tr>
             <td width="120">Nama Lengkap</td>
@@ -101,8 +101,8 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Penyakit</th>
-                <th>Nilai</th>
+                <th>Tingkat Kecanduan</th>
+                <th>Nilai CF</th>
                 <th>Persentase</th>
             </tr>
         </thead>
@@ -110,21 +110,21 @@
             @foreach ($hasil as $key => $value)
                 <tr>
                     <td class="center">{{ $key + 1 }}</td>
-                    <td>{{ $value['nama_penyakit'] }}</td>
-                    <td class="center">{{ $value['cf'] > 0 ? $value['cf'] : '' }}</td>
-                    <td class="center">{{ $value['persentase'] > 0 ? $value['persentase'] . '%' : '' }}</td>
+                    <td>{{ $value['nama_kecanduan'] }}</td>
+                    <td class="center">{{ $value['cf'] > 0 ? round($value['cf'], 4) : '0' }}</td>
+                    <td class="center">{{ $value['persentase'] > 0 ? $value['persentase'] . '%' : '0%' }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
     <table class="mt-1">
         <tr>
-            <td width="120">Hasil Diagnosa </td>
-            <td>{{ $nama_penyakit }}</td>
+            <td width="120">Hasil Skrining </td>
+            <td>{{ $nama_kecanduan }}</td>
         </tr>
         <tr>
             <td width="120">Tingkat Keyakinan </td>
-            <td>{{ $nilai_cf > 0 ? $nilai_cf . '%' : '' }}</td>
+            <td>{{ $nilai_cf > 0 ? $nilai_cf . '%' : '0%' }}</td>
         </tr>
         <tr>
             <td width="120">Solusi Penanganan </td>

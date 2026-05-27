@@ -181,7 +181,7 @@
                                 <tr>
                                     <th class="align-top">Hasil Diagnosa</th>
                                     <td>
-                                        <span class="badge-hasil">{{ $hasil->penyakit->nama_penyakit ?? 'Penyakit tidak diketahui' }}</span>
+                                        <span class="badge-hasil">{{ $hasil->kecanduan->nama_kecanduan ?? 'Tidak diketahui' }}</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -208,7 +208,7 @@
                     <div class="col-12">
                         <div class="info-card" style="background-color: #f0f9fa; border-left: 4px solid #36b9cc;">
                             <h5 class="info-title text-dark"><i class="fas fa-lightbulb text-warning mr-2"></i> Solusi & Penanganan</h5>
-                            <div class="p-2" style="white-space: pre-wrap; word-wrap: break-word; color: #2c3e50; line-height: 1.6;">{!! $hasil->penyakit->solusi ?? 'Belum ada solusi yang ditambahkan untuk diagnosa ini.' !!}</div>
+                            <div class="p-2" style="white-space: pre-wrap; word-wrap: break-word; color: #2c3e50; line-height: 1.6;">{!! $hasil->kecanduan->solusi ?? 'Belum ada solusi yang ditambahkan untuk diagnosa ini.' !!}</div>
                         </div>
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                             <tr>
                                 <td class="text-center">1</td>
                                 <td class="font-weight-bold">{{ $hasil->nama }}</td>
-                                <td><span class="badge-hasil">{{ $hasil->penyakit->nama_penyakit ?? 'Penyakit tidak diketahui' }}</span></td>
+                                <td><span class="badge-hasil">{{ $hasil->kecanduan->nama_kecanduan ?? 'Tidak diketahui' }}</span></td>
                                 <td class="text-center"><span class="badge-nilai">{{ $hasil->cf > 0 ? $hasil->cf . '%' : '0%' }}</span></td>
                                 <td>{{ $hasil->created_at->format('d-m-Y H:i') }}</td>
                                 <td class="text-center">

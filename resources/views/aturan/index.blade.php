@@ -74,7 +74,7 @@
         }
         
         /* Styling Badge Khusus untuk Relasi Aturan */
-        .badge-penyakit {
+        .badge-kecanduan {
             background-color: #e6fffa;
             color: #1cc88a;
             padding: 6px 12px;
@@ -126,7 +126,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center" width="5%">No</th>
-                                <th width="30%">Tingkat Kecanduan (Penyakit)</th>
+                                <th width="30%">Tingkat Kecanduan</th>
                                 <th width="35%">Gejala yang Dialami</th>
                                 <th class="text-center" width="15%">Nilai CF Pakar</th>
                                 <th class="text-center" width="15%">Aksi</th>
@@ -137,10 +137,10 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
-                                        <span class="badge-penyakit">
-                                            <i class="fas fa-book-medical mr-1"></i> {{ $row->penyakit->kode_penyakit }}
+                                        <span class="badge-kecanduan">
+                                            <i class="fas fa-book-medical mr-1"></i> {{ $row->kecanduan->kode_kecanduan }}
                                         </span>
-                                        <div class="mt-1 small text-muted font-weight-bold">{{ $row->penyakit->nama_penyakit }}</div>
+                                        <div class="mt-1 small text-muted font-weight-bold">{{ $row->kecanduan->nama_kecanduan }}</div>
                                     </td>
                                     <td>
                                         <span class="badge-gejala">

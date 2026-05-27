@@ -2,7 +2,7 @@
 
 @section('content')
     <style>
-        /* --- CUSTOM MODERN STYLE UNTUK FORM EDIT --- */
+        /* --- CUSTOM MODERN STYLE UNTUK FORM --- */
         .page-header {
             color: #2c3e50;
             font-weight: 700;
@@ -14,6 +14,7 @@
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
+            border-top: 4px solid #1cc88a; /* Tambahan border atas hijau */
         }
         .form-label {
             font-weight: 600;
@@ -28,8 +29,8 @@
             height: auto;
         }
         .input-custom:focus {
-            border-color: #f6c23e; /* Warna fokus disesuaikan jadi kuning/warning untuk mode edit */
-            box-shadow: 0 0 0 0.2rem rgba(246, 194, 62, 0.25);
+            border-color: #1cc88a; /* Fokus hijau */
+            box-shadow: 0 0 0 0.2rem rgba(28, 200, 138, 0.25); /* Shadow hijau */
         }
         
         /* Styling untuk Icon di dalam Input */
@@ -37,7 +38,7 @@
             border-radius: 10px 0 0 10px;
             border: 1px solid #e2e8f0;
             background-color: #f8f9fc;
-            color: #f6c23e; /* Warna icon mengikuti tema edit */
+            color: #1cc88a; /* Icon warna hijau */
             border-right: none;
         }
         .input-custom.has-icon {
@@ -46,8 +47,8 @@
         }
         
         /* Tombol Simpan & Batal */
-        .btn-update-modern {
-            background: linear-gradient(135deg, #1cc88a 0%, #13a673 100%);
+        .btn-save-modern {
+            background: linear-gradient(135deg, #1cc88a 0%, #13a673 100%); /* Gradasi hijau */
             color: white;
             border: none;
             border-radius: 10px;
@@ -56,7 +57,7 @@
             box-shadow: 0 4px 10px rgba(28, 200, 138, 0.3);
             transition: all 0.3s ease;
         }
-        .btn-update-modern:hover {
+        .btn-save-modern:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(28, 200, 138, 0.4);
             color: white;
@@ -86,8 +87,8 @@
         <div class="container-fluid">
             <div class="row mb-3 align-items-center">
                 <div class="col-sm-8">
-                    <h1 class="page-header"><i class="fas fa-edit text-warning mr-2"></i> Ubah Data Jenis Kecanduan</h1>
-                    <p class="text-muted mb-0">Perbarui informasi tingkat/jenis kecanduan beserta penanganannya di bawah ini.</p>
+                    <h1 class="page-header"><i class="fas fa-plus-circle text-success mr-2"></i> Tambah Tingkat Kecanduan</h1>
+                    <p class="text-muted mb-0">Silakan masukkan kode, nama, deskripsi, dan solusi penanganan.</p>
                 </div>
             </div>
         </div>
@@ -96,22 +97,21 @@
     <section class="content mx-3 mb-5">
         <div class="row">
             <div class="col-lg-10 col-md-12">
-                <div class="card modern-card border-top-warning" style="border-top: 4px solid #f6c23e;">
+                <div class="card modern-card">
                     <div class="card-body p-4 p-md-5">
-                        <form action="{{ route('penyakit.update', $penyakit->id) }}" method="post">
+                        <form action="{{ route('kecanduan.store') }}" method="post">
                             @csrf
-                            @method('PUT')
                             
-                            <!-- Input Kode Penyakit -->
+                            <!-- Input Kode Kecanduan -->
                             <div class="form-group mb-4">
-                                <label for="kode_penyakit" class="form-label">Kode Jenis Kecanduan</label>
+                                <label for="kode_kecanduan" class="form-label">Kode Tingkat Kecanduan</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                                     </div>
-                                    <input type="text" class="form-control input-custom has-icon @error('kode_penyakit') is-invalid @enderror" name="kode_penyakit" id="kode_penyakit" value="{{ old('kode_penyakit', $penyakit->kode_penyakit) }}">
+                                    <input type="text" class="form-control input-custom has-icon @error('kode_kecanduan') is-invalid @enderror" name="kode_kecanduan" id="kode_kecanduan" value="{{ old('kode_kecanduan') }}" placeholder="Contoh: K01">
                                     
-                                    @error('kode_penyakit')
+                                    @error('kode_kecanduan')
                                         <div class="invalid-feedback d-block mt-2">
                                             <i class="fas fa-exclamation-circle mr-1"></i> {{ $message }}
                                         </div>
@@ -119,16 +119,16 @@
                                 </div>
                             </div>
 
-                            <!-- Input Nama Penyakit -->
+                            <!-- Input Nama Kecanduan -->
                             <div class="form-group mb-4">
-                                <label for="nama_penyakit" class="form-label">Jenis Kecanduan</label>
+                                <label for="nama_kecanduan" class="form-label">Tingkat Kecanduan</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-book-medical"></i></span>
                                     </div>
-                                    <input type="text" class="form-control input-custom has-icon @error('nama_penyakit') is-invalid @enderror" name="nama_penyakit" id="nama_penyakit" value="{{ old('nama_penyakit', $penyakit->nama_penyakit) }}">
+                                    <input type="text" class="form-control input-custom has-icon @error('nama_kecanduan') is-invalid @enderror" name="nama_kecanduan" id="nama_kecanduan" value="{{ old('nama_kecanduan') }}" placeholder="Contoh: Kecanduan Berat">
                                     
-                                    @error('nama_penyakit')
+                                    @error('nama_kecanduan')
                                         <div class="invalid-feedback d-block mt-2">
                                             <i class="fas fa-exclamation-circle mr-1"></i> {{ $message }}
                                         </div>
@@ -138,12 +138,12 @@
 
                             <!-- Input Deskripsi -->
                             <div class="form-group mb-4">
-                                <label for="deskripsi" class="form-label">Deskripsi Jenis Kecanduan</label>
+                                <label for="deskripsi" class="form-label">Deskripsi Tingkat Kecanduan</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-align-left"></i></span>
                                     </div>
-                                    <input type="text" class="form-control input-custom has-icon @error('deskripsi') is-invalid @enderror" name="deskripsi" id="deskripsi" value="{{ old('deskripsi', $penyakit->deskripsi) }}">
+                                    <input type="text" class="form-control input-custom has-icon @error('deskripsi') is-invalid @enderror" name="deskripsi" id="deskripsi" value="{{ old('deskripsi') }}" placeholder="Penjelasan singkat...">
                                     
                                     @error('deskripsi')
                                         <div class="invalid-feedback d-block mt-2">
@@ -156,7 +156,7 @@
                             <!-- Input Solusi (TinyMCE) -->
                             <div class="form-group mb-4">
                                 <label for="solusi" class="form-label"><i class="fas fa-lightbulb text-warning mr-1"></i> Solusi Penanganan</label>
-                                <textarea class="form-control tinymce @error('solusi') is-invalid @enderror" name="solusi" id="solusi" rows="6">{{ old('solusi', $penyakit->solusi) }}</textarea>
+                                <textarea class="form-control tinymce @error('solusi') is-invalid @enderror" name="solusi" id="solusi" rows="6">{{ old('solusi') }}</textarea>
                                 
                                 @error('solusi')
                                     <div class="invalid-feedback d-block mt-2">
@@ -169,11 +169,11 @@
 
                             <!-- Tombol Aksi -->
                             <div class="d-flex justify-content-end mt-4">
-                                <a href="{{ route('penyakit.index') }}" class="btn btn-cancel-modern mr-2">
-                                    <i class="fas fa-arrow-left mr-1"></i> Batal
+                                <a href="{{ route('kecanduan.index') }}" class="btn btn-cancel-modern mr-2">
+                                    <i class="fas fa-arrow-left mr-1"></i> Kembali
                                 </a>
-                                <button type="submit" class="btn btn-update-modern">
-                                    <i class="fas fa-save mr-1"></i> Simpan Perubahan
+                                <button type="submit" class="btn btn-save-modern">
+                                    <i class="fas fa-save mr-1"></i> Simpan Data
                                 </button>
                             </div>
                         </form>

@@ -109,6 +109,7 @@
                                 <th class="text-center" width="5%">No</th>
                                 <th width="15%">Kode Gejala</th>
                                 <th>Nama Gejala</th>
+                                <th class="text-center" width="20%">Animasi</th>
                                 <th class="text-center" width="15%">Aksi</th>
                             </tr>
                         </thead>
@@ -118,6 +119,13 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td><span class="badge-kode">{{ $row->kode_gejala }}</span></td>
                                     <td class="font-weight-500">{{ $row->nama_gejala }}</td>
+                                    <td class="text-center">
+                                        @if ($row->animasi)
+                                            <img src="{{ Storage::url($row->animasi) }}" alt="Animasi {{ $row->kode_gejala }}" style="max-height: 60px; max-width: 120px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <form action="{{ route('gejala.destroy', $row->id) }}" method="POST" class="form-action">
                                             @csrf

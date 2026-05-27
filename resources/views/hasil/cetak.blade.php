@@ -98,7 +98,7 @@
         </tr>
         <tr>
             <td width="150">Hasil Skrining </td>
-            <td>{{ $hasil->penyakit->nama_penyakit ?? 'Penyakit tidak diketahui' }}</td>
+            <td>{{ $hasil->kecanduan->nama_kecanduan ?? 'Tidak diketahui' }}</td>
         </tr>
         <tr>
             <td width="150">Tingkat Keyakinan </td>
@@ -106,7 +106,7 @@
         </tr>
         <tr>
             <td width="150">Solusi Penanganan </td>
-            <td style="white-space: pre-wrap; word-wrap: break-word;">{!! $hasil->penyakit->solusi ?? '' !!}</td>
+            <td style="white-space: pre-wrap; word-wrap: break-word;">{!! $hasil->kecanduan->solusi ?? '' !!}</td>
         </tr>
     </table>
 </body>

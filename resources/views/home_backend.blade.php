@@ -143,14 +143,14 @@
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stat-card border-left-success">
                     <div>
-                        <div class="stat-title">Jenis Kecanduan</div>
-                        <div class="stat-value">{{ count($penyakit) }}</div>
+                        <div class="stat-title">Tingkat Kecanduan</div>
+                        <div class="stat-value">{{ count($kecanduan) }}</div>
                     </div>
                     <i class="fas fa-book-medical stat-icon icon-success"></i>
                     
                     @if (auth()->user()->role_id == 1)
                     <div class="stat-footer">
-                        <a href="{{ route('penyakit.index') }}" class="link-success">
+                        <a href="{{ route('kecanduan.index') }}" class="link-success">
                             <span>Lihat detail</span>
                             <i class="fas fa-arrow-right"></i>
                         </a>

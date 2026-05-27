@@ -16,7 +16,7 @@
     <section class="about_section layout_margin-bottom layout_margin-top">
     <div class="card">
                     <h1 align="center">
-                        Hasil Diagnosa Pasien
+                        Hasil Skrining Pengguna
                     </h1>
                     <hr>
         <div class="container">
@@ -28,7 +28,7 @@
                             <td>{{ $data_diri['nama'] }}</td>
                         </tr>
                         <tr>
-                            <td>No HP</td>
+                            <td width="200">No HP / WhatsApp</td>
                             <td>{{ $data_diri['no_hp'] }}</td>
                         </tr>
                         <tr>
@@ -54,8 +54,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Penyakit</th>
-                                <th>Nilai</th>
+                                <th>Tingkat Kecanduan</th>
+                                <th>Nilai CF</th>
                                 <th>Persentase</th>
                             </tr>
                         </thead>
@@ -63,9 +63,9 @@
                             @foreach ($hasil as $key => $value)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $value['nama_penyakit'] }}</td>
-                                    <td>{{ $value['cf'] > 0 ? $value['cf'] : '' }}</td>
-                                    <td>{{ $value['persentase'] > 0 ? $value['persentase'] . '%' : '' }}</td>
+                                    <td>{{ $value['nama_kecanduan'] }}</td>
+                                    <td>{{ $value['cf'] > 0 ? round($value['cf'], 4) : '0' }}</td>
+                                    <td>{{ $value['persentase'] > 0 ? $value['persentase'] . '%' : '0%' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -75,12 +75,12 @@
 
                     <table class="table table-bordered mt-4">
                         <tr>
-                            <td width="200">Hasil Diagnosa </td>
-                            <td>{{ $nama_penyakit }}</td>
+                            <td width="200">Hasil Skrining </td>
+                            <td><strong>{{ $nama_kecanduan }}</strong></td>
                         </tr>
                         <tr>
                             <td width="200">Tingkat Keyakinan </td>
-                            <td>{{ $nilai_cf > 0 ? $nilai_cf . '%' : '' }}</td>
+                            <td><span class="badge badge-danger p-2 font-weight-bold" style="font-size: 1rem;">{{ $nilai_cf > 0 ? $nilai_cf . '%' : '0%' }}</span></td>
                         </tr>
                         <tr>
                             <td width="200">Solusi Penanganan </td>
@@ -88,19 +88,19 @@
                         </tr>
                     </table>
 
-                    <div class="row">
-                        <div class="col-md-8 m-auto">
+                    <div class="row mt-4">
+                        <div class="col-md-8 m-auto text-center">
                             <form method="post" action="{{ route('diagnosis.pdf') }}" target="_blank">
                                 @csrf
                                 {!! Form::hidden('hasil', serialize($hasil)) !!}
                                 {!! Form::hidden('gejala', serialize($gejala)) !!}
-                                {!! Form::hidden('nama_penyakit', $nama_penyakit) !!}
+                                {!! Form::hidden('nama_kecanduan', $nama_kecanduan) !!}
                                 {!! Form::hidden('solusi', $solusi) !!}
                                 {!! Form::hidden('nilai_cf', $nilai_cf) !!}
                                 {!! Form::hidden('data_diri', serialize($data_diri)) !!}
 
-                                <a href="{{ route('diagnosis') }}" class="btn btn-success"><i class="fas fa-check"></i> Selesai</a>
-                                {!! Form::button('<i class="fa fa-print"></i> Cetak Hasil Diagnosa', ['type' => 'submit', 'class' => 'btn btn-info']) !!}
+                                <a href="{{ route('diagnosis') }}" class="btn btn-success mr-2"><i class="fas fa-check"></i> Selesai</a>
+                                {!! Form::button('<i class="fa fa-print"></i> Cetak Hasil Skrining', ['type' => 'submit', 'class' => 'btn btn-info']) !!}
                             </form>
                         </div>
                     </div>

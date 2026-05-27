@@ -78,7 +78,7 @@
                         <hr>
                         <div class="row justify-content-center mb-5">
                             <div class="col-md-4">
-                                <button type="submit" name="btn_proses" class="btn btn-lg btn-block btn-primary"><i class="fa fa-arrow-right"></i> Mulai Skrinig</button>
+                                <button type="submit" name="btn_proses" class="btn btn-lg btn-block btn-primary"><i class="fa fa-arrow-right"></i> Mulai Skrining</button>
                                 </div>
                         </div>
                     </form>

@@ -6,7 +6,7 @@ use App;
 use App\Models\Aturan;
 use App\Models\Gejala;
 use App\Models\Hasil;
-use App\Models\Penyakit;
+use App\Models\Kecanduan;
 use Illuminate\Http\Request;
 
 class DiagnosisController extends Controller
@@ -42,65 +42,63 @@ class DiagnosisController extends Controller
     public function hasil(Request $request)
     {
         $gejala_dipilih = $request->gejala;
-        // panggil fungsi metode CF
+        // panggil fungsi metode CF (tanpa fuzzy)
         $hasil = $this->certainty_factor($gejala_dipilih);
 
         $gejala = [];
-        $gejala2 = [];
-        foreach ($gejala_dipilih as $id_gejala => $g) {
-            $nilai = $this->fuzzy($g);
-            if ($g > 0) {
+        foreach ($gejala_dipilih as $id_gejala => $cf_user) {
+            $cf_user = floatval($cf_user);
+            if ($cf_user > 0) {
                 $gej = Gejala::find($id_gejala);
-                $gejala[] = $gej->kode_gejala . ' - ' . $gej->nama_gejala . ' (' . $g . ')';
-                $gejala2[] = $id_gejala;
+                $gejala[] = $gej->kode_gejala . ' - ' . $gej->nama_gejala . ' (' . $cf_user . ')';
             }
         }
 
-        // nilai default penyakit tidak terdiagnosa
-        $nama_penyakit = 'Penyakit tidak diketahui';
+        // nilai default kecanduan tidak terdiagnosa
+        $nama_kecanduan = 'Tidak terdeteksi kecanduan';
         $solusi = '';
         $nilai_cf = 0;
-        $penyakit_id = null;
+        $kecanduan_id = null;
 
-        // jika penyakit terdiagnosa
+        // jika kecanduan terdiagnosa
         if (!empty($hasil)) {
-            $penyakit_id = $hasil[0]['penyakit_id'];
+            $kecanduan_id = $hasil[0]['kecanduan_id'];
 
-            $penyakit = Penyakit::find($penyakit_id);
-            $nama_penyakit = $penyakit->nama_penyakit;
-            $solusi = $penyakit->solusi;
+            $kecanduan = Kecanduan::find($kecanduan_id);
+            $nama_kecanduan = $kecanduan->nama_kecanduan;
+            $solusi = $kecanduan->solusi;
             $nilai_cf = $hasil[0]['persentase'];
         }
 
         $data_diri = session('data_diri');
         $data_diri['gejala'] = serialize($gejala);
-        $data_diri['penyakit_id'] = $penyakit_id;
+        $data_diri['kecanduan_id'] = $kecanduan_id;
         $data_diri['cf'] = $nilai_cf;
 
         Hasil::create($data_diri);
 
-        return view('diagnosis_hasil', compact('hasil', 'nama_penyakit', 'solusi', 'gejala', 'nilai_cf', 'data_diri'));
+        return view('diagnosis_hasil', compact('hasil', 'nama_kecanduan', 'solusi', 'gejala', 'nilai_cf', 'data_diri'));
     }
 
-    // -------- metode Certainty Factor --------- START
+    // -------- metode Certainty Factor (tanpa fuzzy) --------- START
     public function certainty_factor($gejala)
     {
         $hasil = [];
-        $penyakit = Penyakit::all();
+        $kecanduan_list = Kecanduan::all();
 
-        foreach ($penyakit as $p) {
+        foreach ($kecanduan_list as $k) {
             $cf_kombinasi = 0;
 
-            // ambil data aturan berdasarkan penyakit
-            $aturan = Aturan::where('penyakit_id', $p->id)->get();
+            // ambil data aturan berdasarkan tingkat kecanduan
+            $aturan = Aturan::where('kecanduan_id', $k->id)->get();
             foreach ($aturan as $a) {
                 $cf_user = 0;
 
                 foreach ($gejala as $id_gejala => $g) {
                     if ($id_gejala == $a->gejala_id) {
-                        $nilai_g = $this->fuzzy($g);
+                        $g = floatval($g);
                         if ($g > 0) {
-                            $cf_user = $nilai_g;
+                            $cf_user = $g; // langsung gunakan nilai CF user tanpa fuzzifikasi
                         }
                     }
                 }
@@ -118,8 +116,8 @@ class DiagnosisController extends Controller
 
             if ($cf_kombinasi > 0) {
                 $hasil[] = [
-                    'penyakit_id' => $p->id,
-                    'nama_penyakit' => $p->nama_penyakit,
+                    'kecanduan_id' => $k->id,
+                    'nama_kecanduan' => $k->nama_kecanduan,
                     'cf' => $cf_kombinasi,
                     'persentase' => round($cf_kombinasi * 100, 2),
                 ];
@@ -132,61 +130,7 @@ class DiagnosisController extends Controller
 
         return $hasil;
     }
-    // -------- metode Certainty Factor --------- END
-
-    // fungsi untuk menghitung nilai cf user menggunakan fuzzy
-    public function fuzzy($nilai)
-    {
-        $ringan = $this->fungsi_keanggotaan_ringan($nilai);
-        $sedang = $this->fungsi_keanggotaan_sedang($nilai);
-        $berat = $this->fungsi_keanggotaan_berat($nilai);
-
-        $cf_fuzzy = (($ringan * 0.4) + ($sedang * 0.7) + ($berat * 1.0)) / ($ringan + $sedang + $berat);
-
-        return $cf_fuzzy;
-    }
-
-    // fungsi untuk menentukan fungsi keanggotaan fuzzy ringan
-    public function fungsi_keanggotaan_ringan($x)
-    {
-        if ($x <= 1) {
-            $m = 1;
-        } elseif ($x > 1 && $x < 5) {
-            $m = (5 - $x) / (5 - 1);
-        } elseif ($x >= 5) {
-            $m = 0;
-        }
-
-        return $m;
-    }
-
-    // fungsi untuk menentukan fungsi keanggotaan fuzzy sedang
-    public function fungsi_keanggotaan_sedang($x)
-    {
-        if ($x <= 1 || $x >= 10) {
-            $m = 0;
-        } elseif ($x > 1 && $x < 5) {
-            $m = ($x - 1) / (5 - 1);
-        } elseif ($x >= 5 && $x <= 10) {
-            $m = (10 - $x) / (10 - 5);
-        }
-
-        return $m;
-    }
-
-    // fungsi untuk menentukan fungsi keanggotaan fuzzy berat
-    public function fungsi_keanggotaan_berat($x)
-    {
-        if ($x <= 5) {
-            $m = 0;
-        } elseif ($x > 5 && $x < 10) {
-            $m = ($x - 5) / (10 - 5);
-        } elseif ($x >= 10) {
-            $m = 1;
-        }
-
-        return $m;
-    }
+    // -------- metode Certainty Factor (tanpa fuzzy) --------- END
 
     // fungsi untuk mengurutkan array berdasarkan kolom
     function array_sort_by_column(&$arr, $col, $dir = SORT_DESC)
@@ -204,13 +148,13 @@ class DiagnosisController extends Controller
     {
         $gejala = $request->gejala;
         $solusi = $request->solusi;
-        $nama_penyakit = $request->nama_penyakit;
+        $nama_kecanduan = $request->nama_kecanduan;
         $nilai_cf = $request->nilai_cf;
         $data_diri = $request->data_diri;
         $hasil = $request->hasil;
 
         $pdf = App::make('dompdf.wrapper');
-        $html = view('diagnosis_pdf', compact('gejala', 'solusi', 'nama_penyakit', 'nilai_cf', 'data_diri', 'hasil'));
+        $html = view('diagnosis_pdf', compact('gejala', 'solusi', 'nama_kecanduan', 'nilai_cf', 'data_diri', 'hasil'));
         $pdf->loadHTML($html);
         return $pdf->stream();
     }

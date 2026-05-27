@@ -31,7 +31,7 @@
                         Kontak
                     </h4>
                     <div class="contact_link_box">
-                        <a href="mailto:sistempakarjantung@gmail.com" target="_blank">
+                        <a href="mailto:SkriningApp@gmail.com" target="_blank">
                             <i class="fa fa-fw fa-envelope" aria-hidden="true"></i>
                             <span>
                                 SkriningApp@gmail.com

@@ -111,7 +111,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center" width="5%">No</th>
-                                <th width="20%">Nama Pasien</th>
+                                <th width="20%">Nama Pengguna</th>
                                 <th width="25%">Hasil Skrining</th>
                                 <th class="text-center" width="15%">Nilai Kepastian</th>
                                 <th>Tanggal Skrining</th>
@@ -129,7 +129,7 @@
                                     </td>
                                     <td>
                                         <span class="badge-hasil">
-                                            <i class="fas fa-notes-medical mr-1"></i> {{ $row->penyakit->nama_penyakit ?? 'Penyakit tidak diketahui' }}
+                                            <i class="fas fa-notes-medical mr-1"></i> {{ $row->kecanduan->nama_kecanduan ?? 'Tidak diketahui' }}
                                         </span>
                                     </td>
                                     <td class="text-center">

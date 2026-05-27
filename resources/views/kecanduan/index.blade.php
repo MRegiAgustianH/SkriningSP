@@ -90,7 +90,7 @@
         <div class="container-fluid">
             <div class="row mb-3 align-items-center">
                 <div class="col-sm-6">
-                    <h1 class="page-header"><i class="fas fa-book-medical text-success mr-2"></i> Data Jenis Kecanduan</h1>
+                    <h1 class="page-header"><i class="fas fa-book-medical text-success mr-2"></i> Data Tingkat Kecanduan</h1>
                     <p class="text-muted mb-0">Kelola master data tingkat/jenis kecanduan game online.</p>
                 </div>
             </div>
@@ -101,8 +101,8 @@
         <div class="card modern-card">
             <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <a href="{{ route('penyakit.create') }}" class="btn btn-add-modern">
-                        <i class="fas fa-plus-circle mr-1"></i> Tambah Jenis Kecanduan
+                    <a href="{{ route('kecanduan.create') }}" class="btn btn-add-modern">
+                        <i class="fas fa-plus-circle mr-1"></i> Tambah Tingkat Kecanduan
                     </a>
                 </div>
                 
@@ -112,26 +112,26 @@
                             <tr>
                                 <th class="text-center" width="5%">No</th>
                                 <th width="20%">Kode Kecanduan</th>
-                                <th width="25%">Jenis Kecanduan</th>
+                                <th width="25%">Tingkat Kecanduan</th>
                                 <th>Deskripsi</th>
                                 <th class="text-center" width="15%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($penyakit as $row)
+                            @foreach ($kecanduan as $row)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td><span class="badge-kode">{{ $row->kode_penyakit }}</span></td>
-                                    <td class="font-weight-bold">{{ $row->nama_penyakit }}</td>
+                                    <td><span class="badge-kode">{{ $row->kode_kecanduan }}</span></td>
+                                    <td class="font-weight-bold">{{ $row->nama_kecanduan }}</td>
                                     <td class="deskripsi-teks">{!! Str::words(strip_tags($row->deskripsi), 8, '...') !!}</td>
                                     <td class="text-center">
-                                        <form action="{{ route('penyakit.destroy', $row->id) }}" method="POST" class="form-action">
+                                        <form action="{{ route('kecanduan.destroy', $row->id) }}" method="POST" class="form-action">
                                             @csrf
                                             @method('DELETE')
-                                            <a href="{{ route('penyakit.edit', $row->id) }}" class="btn btn-warning action-btn text-white" title="Edit Data">
+                                            <a href="{{ route('kecanduan.edit', $row->id) }}" class="btn btn-warning action-btn text-white" title="Edit Data">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button class="btn btn-danger action-btn delete-confirm" type="submit" title="Hapus Data" data-name="{{ $row->nama_penyakit }}">
+                                            <button class="btn btn-danger action-btn delete-confirm" type="submit" title="Hapus Data" data-name="{{ $row->nama_kecanduan }}">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>

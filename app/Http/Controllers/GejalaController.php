@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gejala;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class GejalaController extends Controller
 {
@@ -11,10 +12,9 @@ class GejalaController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -24,8 +24,6 @@ class GejalaController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -34,9 +32,6 @@ class GejalaController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -48,7 +43,13 @@ class GejalaController extends Controller
         $validated = $request->validate([
             'kode_gejala' => 'required|unique:gejala',
             'nama_gejala' => 'required',
+            'animasi' => 'nullable|file|mimes:gif,png,jpg,jpeg,webp|max:5120',
         ], $message);
+
+        // Upload file animasi jika ada
+        if ($request->hasFile('animasi')) {
+            $validated['animasi'] = $request->file('animasi')->store('public/animasi');
+        }
 
         $result = Gejala::create($validated);
 
@@ -61,9 +62,6 @@ class GejalaController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function edit(Gejala $gejala)
     {
@@ -72,10 +70,6 @@ class GejalaController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Gejala $gejala)
     {
@@ -87,7 +81,25 @@ class GejalaController extends Controller
         $validated = $request->validate([
             'kode_gejala' => 'required|unique:gejala,kode_gejala,' . $gejala->id,
             'nama_gejala' => 'required',
+            'animasi' => 'nullable|file|mimes:gif,png,jpg,jpeg,webp|max:5120',
         ], $message);
+
+        // Upload file animasi baru jika ada
+        if ($request->hasFile('animasi')) {
+            // Hapus file lama jika ada
+            if ($gejala->animasi) {
+                Storage::delete($gejala->animasi);
+            }
+            $validated['animasi'] = $request->file('animasi')->store('public/animasi');
+        }
+
+        // Hapus animasi jika checkbox hapus dicentang
+        if ($request->has('hapus_animasi')) {
+            if ($gejala->animasi) {
+                Storage::delete($gejala->animasi);
+            }
+            $validated['animasi'] = null;
+        }
 
         $result = $gejala->update($validated);
 
@@ -100,12 +112,14 @@ class GejalaController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Gejala $gejala)
     {
+        // Hapus file animasi jika ada
+        if ($gejala->animasi) {
+            Storage::delete($gejala->animasi);
+        }
+
         $result = $gejala->delete();
 
         if ($result) {

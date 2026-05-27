@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Aturan;
 use App\Models\Gejala;
-use App\Models\Penyakit;
+use App\Models\Kecanduan;
 use Illuminate\Http\Request;
 
 class AturanController extends Controller
@@ -13,10 +13,9 @@ class AturanController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -26,14 +25,12 @@ class AturanController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        $penyakit = Penyakit::all();
+        $kecanduan = Kecanduan::all();
         $gejala = Gejala::all();
-        return view('aturan.create', compact('penyakit', 'gejala'));
+        return view('aturan.create', compact('kecanduan', 'gejala'));
     }
 
     public function store(Request $request)
@@ -43,13 +40,13 @@ class AturanController extends Controller
         ];
 
         $validated = $request->validate([
-            'penyakit_id' => 'required',
+            'kecanduan_id' => 'required',
             'gejala_id' => 'required',
             'cf_pakar' => 'required',
         ], $message);
 
         $result = Aturan::create([
-            'penyakit_id' => $validated['penyakit_id'],
+            'kecanduan_id' => $validated['kecanduan_id'],
             'gejala_id' => $validated['gejala_id'],
             'cf_pakar' => $validated['cf_pakar'],
         ]);
@@ -63,10 +60,10 @@ class AturanController extends Controller
 
     public function edit(Aturan $aturan)
     {
-        $penyakit = Penyakit::all();
+        $kecanduan = Kecanduan::all();
         $gejala = Gejala::all();
 
-        return view('aturan.edit', compact('aturan', 'penyakit', 'gejala'));
+        return view('aturan.edit', compact('aturan', 'kecanduan', 'gejala'));
     }
 
     public function update(Request $request, Aturan $aturan)
@@ -76,7 +73,7 @@ class AturanController extends Controller
         ];
 
         $validated = $request->validate([
-            'penyakit_id' => 'required',
+            'kecanduan_id' => 'required',
             'gejala_id' => 'required',
             'cf_pakar' => 'required',
         ], $message);

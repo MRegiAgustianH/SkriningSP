@@ -92,7 +92,7 @@
             <div class="col-lg-8 col-md-10">
                 <div class="card modern-card border-top-warning" style="border-top: 4px solid #f6c23e;">
                     <div class="card-body p-4 p-md-5">
-                        <form action="{{ route('gejala.update', $gejala->id) }}" method="post">
+                        <form action="{{ route('gejala.update', $gejala->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             
@@ -128,6 +128,38 @@
                                         </div>
                                     @enderror
                                 </div>
+                            </div>
+
+                            <!-- Preview Animasi Saat Ini -->
+                            @if ($gejala->animasi)
+                                <div class="form-group mb-4">
+                                    <label class="form-label d-block">Animasi Saat Ini</label>
+                                    <div class="mb-2">
+                                        <img src="{{ Storage::url($gejala->animasi) }}" alt="Animasi {{ $gejala->kode_gejala }}" style="max-height: 150px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="hapus_animasi" name="hapus_animasi" value="1">
+                                        <label class="custom-control-label text-danger font-weight-600" for="hapus_animasi">Hapus Animasi</label>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <!-- Input Animasi Baru -->
+                            <div class="form-group mb-4">
+                                <label for="animasi" class="form-label">Ubah Animasi Gejala (GIF/Gambar)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-film"></i></span>
+                                    </div>
+                                    <input type="file" class="form-control input-custom has-icon @error('animasi') is-invalid @enderror" name="animasi" id="animasi" accept="image/gif,image/png,image/jpeg,image/webp">
+                                    
+                                    @error('animasi')
+                                        <div class="invalid-feedback d-block mt-2">
+                                            <i class="fas fa-exclamation-circle mr-1"></i> {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <small class="form-text text-muted mt-2"><i class="fas fa-info-circle"></i> Biarkan kosong jika tidak ingin mengubah animasi. Format: GIF, PNG, JPG, JPEG, WEBP. Maksimal 5MB.</small>
                             </div>
 
                             <hr class="my-4" style="border-color: #eaecf4;">
