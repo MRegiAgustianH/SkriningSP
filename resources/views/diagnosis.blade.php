@@ -767,6 +767,15 @@
             var totalSlides = {{ count($gejala) }};
             var answeredTracker = {}; // tracks which question indices have been answered
 
+            // Initialize answeredTracker on page load based on pre-selected classes (from old values)
+            $('.screening-slide').each(function(idx) {
+                var hasSelection = $(this).find('.timeline-row.selected').length > 0;
+                if (hasSelection) {
+                    answeredTracker[idx] = true;
+                    $('#pag_' + idx).addClass('answered');
+                }
+            });
+
             // Initialize progress bar, slide arrow states, and sliding pagination window
             updateProgress();
             updatePaginationArrows();
@@ -787,6 +796,7 @@
                 }
             });
 
+            // Pagination arrow clicks
             $('#pagNext').click(function(e) {
                 e.preventDefault();
                 if (currentIdx < totalSlides - 1) {
@@ -824,6 +834,9 @@
                     setTimeout(function() {
                         goToSlide(currentIdx + 1);
                     }, 500);
+                } else {
+                    // We are on the final slide! Since they just answered it, show the submit button!
+                    $('#submitBtnContainer').show().addClass('animate pulse infinite');
                 }
             });
 
@@ -855,8 +868,8 @@
                 // Manage pagination arrow states
                 updatePaginationArrows();
 
-                // Show/hide submit button on the final slide
-                if (currentIdx === totalSlides - 1) {
+                // Show/hide submit button on the final slide only if it is answered
+                if (currentIdx === totalSlides - 1 && answeredTracker[currentIdx]) {
                     $('#submitBtnContainer').show().addClass('animate pulse infinite');
                 } else {
                     $('#submitBtnContainer').hide().removeClass('animate pulse infinite');

@@ -122,6 +122,102 @@
     .footer-info a:hover {
         text-decoration: underline;
     }
+
+    /* =========================================================
+       PREMIUM FLYER SPLASH OVERLAY
+       ========================================================= */
+    .flyer-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        z-index: 999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .flyer-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .flyer-content {
+        position: relative;
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        padding: 24px;
+        width: 90%;
+        max-width: 520px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform: scale(0.92) translateY(15px);
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .flyer-overlay.active .flyer-content {
+        transform: scale(1) translateY(0);
+    }
+
+    .flyer-close-btn {
+        position: absolute;
+        top: 14px;
+        right: 18px;
+        background: none;
+        border: none;
+        font-size: 32px;
+        color: #94a3b8;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        line-height: 1;
+        outline: none !important;
+    }
+
+    .flyer-close-btn:hover {
+        color: #0f172a;
+    }
+
+    .flyer-img-container {
+        width: 100%;
+        max-height: 60vh;
+        overflow: hidden;
+        border-radius: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        margin-top: 15px;
+    }
+
+    .flyer-img {
+        max-width: 100%;
+        max-height: 60vh;
+        object-fit: contain;
+    }
+
+    @media (max-width: 576px) {
+        .flyer-content {
+            padding: 16px;
+            border-radius: 20px;
+        }
+        .flyer-img-container {
+            max-height: 52vh;
+        }
+        .flyer-img {
+            max-height: 52vh;
+        }
+    }
 </style>
 
 <footer class="footer_section">
@@ -175,3 +271,67 @@
     </div>
 </footer>
 <!-- footer section -->
+
+<!-- Premium Flyer Overlay -->
+<div id="flyerOverlay" class="flyer-overlay">
+    <div class="flyer-content">
+        <button type="button" class="flyer-close-btn" id="btnExitFlyerTop" aria-label="Close flyer">&times;</button>
+        <div class="flyer-img-container" style="margin-top: 25px;">
+            <img src="{{ asset('assets/images/flyer.svg') }}" alt="Flyer Skrining" class="flyer-img">
+        </div>
+    </div>
+</div>
+
+<script>
+    // Vanilla JS to show the flyer only on first visit or refresh, preventing popup on page navigation
+    document.addEventListener("DOMContentLoaded", function() {
+        var flyer = document.getElementById("flyerOverlay");
+        var btnTop = document.getElementById("btnExitFlyerTop");
+        
+        if (flyer) {
+            var shouldShow = false;
+
+            // Check if this is the first load of the session
+            if (!sessionStorage.getItem("flyerShown")) {
+                shouldShow = true;
+                sessionStorage.setItem("flyerShown", "true");
+            } else {
+                // If it's not the first load, check if it was a reload/refresh
+                var navigationEntries = performance.getEntriesByType("navigation");
+                if (navigationEntries.length > 0 && navigationEntries[0].type === "reload") {
+                    shouldShow = true;
+                } else if (typeof performance.navigation !== "undefined" && performance.navigation.type === 1) {
+                    // Fallback for older browser versions
+                    shouldShow = true;
+                }
+            }
+
+            if (shouldShow) {
+                // Lock body scroll
+                document.body.style.overflow = "hidden";
+                
+                // Fade-in after a slight delay
+                setTimeout(function() {
+                    flyer.classList.add("active");
+                }, 300);
+
+                function hideFlyer() {
+                    flyer.classList.remove("active");
+                    document.body.style.overflow = "";
+                }
+
+                if (btnTop) btnTop.addEventListener("click", hideFlyer);
+
+                // Close when clicking the glass backdrop
+                flyer.addEventListener("click", function(e) {
+                    if (e.target === flyer) {
+                        hideFlyer();
+                    }
+                });
+            } else {
+                // If we shouldn't show it, hide the overlay container immediately
+                flyer.style.display = "none";
+            }
+        }
+    });
+</script>
