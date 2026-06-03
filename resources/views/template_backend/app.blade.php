@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('assets/bootstrap-select/css/bootstrap-select.min.css') }}">
     <!-- TinyMCE -->
     <script src="https://cdn.tiny.cloud/1/95z1wlpdzasy0ulf89wyn6yu2avjhespgwuamxxar1gnlmh5/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
 
     <link rel="shortcut icon" href="{{ asset('assets/images/SkriningApp.png') }}" type="image/x-icon">
