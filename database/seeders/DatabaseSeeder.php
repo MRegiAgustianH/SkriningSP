@@ -90,14 +90,19 @@ class DatabaseSeeder extends Seeder
         }
 
         // === Aturan (Rule CF Pakar) ===
-        // Kecanduan Ringan (K01)
+        // Desain baru: Setiap tingkat punya gejala EKSKLUSIF yang dominan,
+        // overlap diminimalkan, semua 20 gejala digunakan.
+
+        // Kecanduan Ringan (K01) — Gejala awal/ringan
+        // Eksklusif: G001, G002, G005 | Dominan: G004, G015
         $aturanK01 = [
-            ['gejala' => 'G001', 'cf_pakar' => 0.4],
-            ['gejala' => 'G002', 'cf_pakar' => 0.5],
-            ['gejala' => 'G003', 'cf_pakar' => 0.6],
-            ['gejala' => 'G004', 'cf_pakar' => 0.6],
-            ['gejala' => 'G006', 'cf_pakar' => 0.8],
-            ['gejala' => 'G015', 'cf_pakar' => 0.5],
+            ['gejala' => 'G001', 'cf_pakar' => 0.8],  // Eksklusif K01
+            ['gejala' => 'G002', 'cf_pakar' => 0.8],  // Eksklusif K01
+            ['gejala' => 'G003', 'cf_pakar' => 0.4],  // Overlap kecil (K02 lebih tinggi)
+            ['gejala' => 'G004', 'cf_pakar' => 0.7],  // Dominan K01
+            ['gejala' => 'G005', 'cf_pakar' => 0.6],  // Eksklusif K01
+            ['gejala' => 'G006', 'cf_pakar' => 0.3],  // Overlap kecil (K02 lebih tinggi)
+            ['gejala' => 'G015', 'cf_pakar' => 0.7],  // Dominan K01
         ];
 
         foreach ($aturanK01 as $a) {
@@ -108,16 +113,21 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Kecanduan Sedang (K02)
+        // Kecanduan Sedang (K02) — Mulai mengganggu kehidupan
+        // Eksklusif: G007 | Dominan: G006, G008, G009, G013, G016, G017
         $aturanK02 = [
-            ['gejala' => 'G003', 'cf_pakar' => 0.5],
-            ['gejala' => 'G005', 'cf_pakar' => 0.4],
-            ['gejala' => 'G006', 'cf_pakar' => 0.5],
-            ['gejala' => 'G007', 'cf_pakar' => 0.5],
-            ['gejala' => 'G008', 'cf_pakar' => 0.6],
-            ['gejala' => 'G009', 'cf_pakar' => 0.8],
-            ['gejala' => 'G016', 'cf_pakar' => 0.7],
-            ['gejala' => 'G017', 'cf_pakar' => 0.8],
+            ['gejala' => 'G003', 'cf_pakar' => 0.7],  // Dominan K02 (overlap K01)
+            ['gejala' => 'G004', 'cf_pakar' => 0.3],  // Overlap kecil (K01 lebih tinggi)
+            ['gejala' => 'G006', 'cf_pakar' => 0.6],  // Dominan K02
+            ['gejala' => 'G007', 'cf_pakar' => 0.8],  // Eksklusif K02
+            ['gejala' => 'G008', 'cf_pakar' => 0.7],  // Dominan K02
+            ['gejala' => 'G009', 'cf_pakar' => 0.4],  // Overlap kecil (K03 lebih tinggi)
+            ['gejala' => 'G013', 'cf_pakar' => 0.4],  // Overlap kecil (K03 lebih tinggi)
+            ['gejala' => 'G015', 'cf_pakar' => 0.3],  // Overlap kecil (K01 lebih tinggi)
+            ['gejala' => 'G016', 'cf_pakar' => 0.8],  // Dominan K02
+            ['gejala' => 'G017', 'cf_pakar' => 0.7],  // Dominan K02
+            ['gejala' => 'G018', 'cf_pakar' => 0.3],  // Overlap kecil (K03 lebih tinggi)
+            ['gejala' => 'G019', 'cf_pakar' => 0.4],  // Overlap kecil (K03 lebih tinggi)
         ];
 
         foreach ($aturanK02 as $a) {
@@ -128,15 +138,20 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Kecanduan Berat (K03)
+        // Kecanduan Berat (K03) — Ketergantungan tinggi
+        // Eksklusif: G011, G012, G014, G020 | Dominan: G010, G018, G019
         $aturanK03 = [
-            ['gejala' => 'G005', 'cf_pakar' => 0.4],
-            ['gejala' => 'G008', 'cf_pakar' => 0.5],
-            ['gejala' => 'G009', 'cf_pakar' => 0.6],
-            ['gejala' => 'G010', 'cf_pakar' => 0.8],
-            ['gejala' => 'G011', 'cf_pakar' => 0.8],
-            ['gejala' => 'G012', 'cf_pakar' => 0.6],
-            ['gejala' => 'G013', 'cf_pakar' => 0.5],
+            ['gejala' => 'G009', 'cf_pakar' => 0.6],  // Dominan K03 (withdrawal symptom)
+            ['gejala' => 'G010', 'cf_pakar' => 0.8],  // Dominan K03
+            ['gejala' => 'G011', 'cf_pakar' => 0.9],  // Eksklusif K03
+            ['gejala' => 'G012', 'cf_pakar' => 0.9],  // Eksklusif K03
+            ['gejala' => 'G013', 'cf_pakar' => 0.6],  // Dominan K03
+            ['gejala' => 'G014', 'cf_pakar' => 0.8],  // Eksklusif K03
+            ['gejala' => 'G016', 'cf_pakar' => 0.4],  // Overlap kecil (K02 lebih tinggi)
+            ['gejala' => 'G017', 'cf_pakar' => 0.4],  // Overlap kecil (K02 lebih tinggi)
+            ['gejala' => 'G018', 'cf_pakar' => 0.8],  // Dominan K03
+            ['gejala' => 'G019', 'cf_pakar' => 0.7],  // Dominan K03
+            ['gejala' => 'G020', 'cf_pakar' => 0.8],  // Eksklusif K03
         ];
 
         foreach ($aturanK03 as $a) {
