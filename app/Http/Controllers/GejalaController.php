@@ -43,7 +43,7 @@ class GejalaController extends Controller
         $validated = $request->validate([
             'kode_gejala' => 'required|unique:gejala',
             'nama_gejala' => 'required',
-            'animasi' => 'nullable|file|mimes:gif,png,jpg,jpeg,webp|max:5120',
+            'animasi' => 'nullable|file|mimes:gif,png,jpg,jpeg,webp,mp4|max:10240',
         ], $message);
 
         // Upload file animasi jika ada
@@ -81,7 +81,7 @@ class GejalaController extends Controller
         $validated = $request->validate([
             'kode_gejala' => 'required|unique:gejala,kode_gejala,' . $gejala->id,
             'nama_gejala' => 'required',
-            'animasi' => 'nullable|file|mimes:gif,png,jpg,jpeg,webp|max:5120',
+            'animasi' => 'nullable|file|mimes:gif,png,jpg,jpeg,webp,mp4|max:10240',
         ], $message);
 
         // Upload file animasi baru jika ada

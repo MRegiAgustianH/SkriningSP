@@ -119,11 +119,15 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td><span class="badge-kode">{{ $row->kode_gejala }}</span></td>
                                     <td class="font-weight-500">{{ $row->nama_gejala }}</td>
-                                    <td class="text-center">
+                                    <td class="text-center align-middle">
                                         @if ($row->animasi)
-                                            <img src="{{ Storage::url($row->animasi) }}" alt="Animasi {{ $row->kode_gejala }}" style="max-height: 60px; max-width: 120px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                            @if(Str::endsWith($row->animasi, '.mp4'))
+                                                <video src="{{ Storage::url($row->animasi) }}" autoplay loop muted playsinline style="max-height: 60px; max-width: 120px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);"></video>
+                                            @else
+                                                <img src="{{ Storage::url($row->animasi) }}" alt="Animasi {{ $row->kode_gejala }}" style="max-height: 60px; max-width: 120px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                            @endif
                                         @else
-                                            <span class="text-muted">-</span>
+                                            <span class="text-muted font-italic"><i class="fas fa-image text-gray-300 mr-1"></i> Kosong</span>
                                         @endif
                                     </td>
                                     <td class="text-center">

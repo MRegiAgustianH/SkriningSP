@@ -614,13 +614,18 @@
                                         <div class="row align-items-center mt-3">
                                             <!-- Left side: Illustration GIF/Image Frame -->
                                             <div class="col-lg-6 mb-4 mb-lg-0 text-center">
-                                                <div class="illustration-frame">
+                                                <div class="illustration-box mb-3 mt-1">
                                                     @if ($row->animasi)
-                                                        <img src="{{ Storage::url($row->animasi) }}" alt="Animasi {{ $row->kode_gejala }}" class="illustration-img">
+                                                        @if(Str::endsWith($row->animasi, '.mp4'))
+                                                            <video src="{{ Storage::url($row->animasi) }}" autoplay loop muted playsinline class="illustration-img"></video>
+                                                        @else
+                                                            <img src="{{ Storage::url($row->animasi) }}" alt="Animasi {{ $row->kode_gejala }}" class="illustration-img">
+                                                        @endif
                                                     @else
-                                                        <div class="text-center">
+                                                        <!-- Placeholder jika tidak ada animasi -->
+                                                        <div class="text-center py-5">
                                                             <i class="fa fa-gamepad illustration-placeholder-icon"></i>
-                                                            <p class="text-muted font-italic m-0 mt-3" style="font-size: 13px;">Ilustrasi Pendukung {{ $row->kode_gejala }}</p>
+                                                            <p class="text-muted font-italic m-0 mt-4" style="font-size: 14px;">Ilustrasi Pendukung {{ $row->kode_gejala }}</p>
                                                         </div>
                                                     @endif
                                                 </div>

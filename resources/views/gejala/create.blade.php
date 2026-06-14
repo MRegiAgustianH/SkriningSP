@@ -133,20 +133,19 @@
 
                             <!-- Input Animasi -->
                             <div class="form-group mb-4">
-                                <label for="animasi" class="form-label">Animasi Gejala (GIF/Gambar)</label>
+                                <label for="animasi" class="form-label">Animasi Gejala (MP4/GIF/Gambar)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-film"></i></span>
+                                        <span class="input-group-text bg-white border-right-0"><i class="fas fa-film text-warning"></i></span>
                                     </div>
-                                    <input type="file" class="form-control input-custom has-icon @error('animasi') is-invalid @enderror" name="animasi" id="animasi" accept="image/gif,image/png,image/jpeg,image/webp">
-                                    
+                                    <input type="file" class="form-control input-custom has-icon @error('animasi') is-invalid @enderror" name="animasi" id="animasi" accept="video/mp4,image/gif,image/png,image/jpeg,image/webp">
+                                </div>    
                                     @error('animasi')
                                         <div class="invalid-feedback d-block mt-2">
                                             <i class="fas fa-exclamation-circle mr-1"></i> {{ $message }}
                                         </div>
                                     @enderror
-                                </div>
-                                <small class="form-text text-muted mt-2"><i class="fas fa-info-circle"></i> Format yang didukung: GIF, PNG, JPG, JPEG, WEBP. Maksimal ukuran file: 5MB.</small>
+                                <small class="form-text text-muted mt-2"><i class="fas fa-info-circle"></i> Biarkan kosong jika tidak ingin menambahkan animasi. Format: MP4, GIF, PNG, JPG, JPEG, WEBP. Maksimal 10MB.</small>
                             </div>
 
                             <hr class="my-4" style="border-color: #eaecf4;">

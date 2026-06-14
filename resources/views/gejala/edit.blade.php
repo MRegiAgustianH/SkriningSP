@@ -132,12 +132,14 @@
 
                             <!-- Preview Animasi Saat Ini -->
                             @if ($gejala->animasi)
-                                <div class="form-group mb-4">
+                                <div class="mb-4 text-center p-3" style="background: #f8f9fc; border-radius: 12px; border: 1px dashed #cbd5e1;">
                                     <label class="form-label d-block">Animasi Saat Ini</label>
-                                    <div class="mb-2">
+                                    @if(Str::endsWith($gejala->animasi, '.mp4'))
+                                        <video src="{{ Storage::url($gejala->animasi) }}" autoplay loop muted playsinline style="max-height: 150px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"></video>
+                                    @else
                                         <img src="{{ Storage::url($gejala->animasi) }}" alt="Animasi {{ $gejala->kode_gejala }}" style="max-height: 150px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                                    </div>
-                                    <div class="custom-control custom-checkbox">
+                                    @endif
+                                    <div class="mt-3 custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="hapus_animasi" name="hapus_animasi" value="1">
                                         <label class="custom-control-label text-danger font-weight-600" for="hapus_animasi">Hapus Animasi</label>
                                     </div>
@@ -146,20 +148,20 @@
 
                             <!-- Input Animasi Baru -->
                             <div class="form-group mb-4">
-                                <label for="animasi" class="form-label">Ubah Animasi Gejala (GIF/Gambar)</label>
+                                <label for="animasi" class="form-label">Ubah Animasi Gejala (MP4/GIF/Gambar)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-film"></i></span>
+                                        <span class="input-group-text bg-white border-right-0"><i class="fas fa-film text-warning"></i></span>
                                     </div>
-                                    <input type="file" class="form-control input-custom has-icon @error('animasi') is-invalid @enderror" name="animasi" id="animasi" accept="image/gif,image/png,image/jpeg,image/webp">
-                                    
+                                    <input type="file" class="form-control input-custom has-icon @error('animasi') is-invalid @enderror" name="animasi" id="animasi" accept="video/mp4,image/gif,image/png,image/jpeg,image/webp">
+                                </div>    
                                     @error('animasi')
                                         <div class="invalid-feedback d-block mt-2">
                                             <i class="fas fa-exclamation-circle mr-1"></i> {{ $message }}
                                         </div>
-                                    @enderror
-                                </div>
-                                <small class="form-text text-muted mt-2"><i class="fas fa-info-circle"></i> Biarkan kosong jika tidak ingin mengubah animasi. Format: GIF, PNG, JPG, JPEG, WEBP. Maksimal 5MB.</small>
+                                    </div>
+                                @enderror
+                                <small class="form-text text-muted mt-2"><i class="fas fa-info-circle"></i> Biarkan kosong jika tidak ingin mengubah animasi. Format: MP4, GIF, PNG, JPG, JPEG, WEBP. Maksimal 10MB.</small>
                             </div>
 
                             <hr class="my-4" style="border-color: #eaecf4;">
