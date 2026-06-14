@@ -1,114 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Cetak Hasil Skrining</title>
-
+    <title>Surat Keterangan Hasil Skrining</title>
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #000;
+            margin: 0;
+            padding: 10px 20px;
+        }
+        .kop-surat {
+            text-align: center;
+            border-bottom: 3px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .kop-surat h2 {
+            margin: 0;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+        .kop-surat p {
+            margin: 5px 0 0;
             font-size: 14px;
         }
-
-        th {
-            height: 20px;
+        .judul-surat {
             text-align: center;
+            margin-bottom: 30px;
         }
-
-        table,
-        th,
-        td {
-            border: 1px solid black;
+        .judul-surat h3 {
+            margin: 0;
+            font-size: 16px;
+            text-decoration: underline;
+            text-transform: uppercase;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #000;
+            display: inline-block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-info td {
+            padding: 4px 0;
             vertical-align: top;
         }
-
-        th,
-        td {
-            padding: 3px;
+        .table-info td:first-child {
+            width: 180px;
         }
-
-        thead {
-            background: lightgray;
+        .table-info td:nth-child(2) {
+            width: 10px;
         }
-
-        .center {
+        
+        .signature {
+            margin-top: 40px;
+            width: 300px;
+            float: right;
             text-align: center;
         }
-
-        .right {
-            text-align: right;
+        .signature .name {
+            margin-top: 80px;
+            font-weight: bold;
+            text-decoration: underline;
         }
-
-        .table-no-border {
-            table-layout: fixed;
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
         }
-
-        .table-no-border,
-        .table-no-border th,
-        .table-no-border td {
-            border: none;
-        }
-
-        .mt-1 {
+        .hasil-box {
+            border: 2px solid #000;
+            padding: 15px;
             margin-top: 20px;
+            background-color: #fcfcfc;
         }
-
-        .mt-2 {
-            margin-top: 40px;
+        .hasil-box h4 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 16px;
+        }
+        ul {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding-left: 20px;
         }
     </style>
 </head>
-
 <body>
-    <h3 class="center">HASIL SKRINING</h3>
+    <div class="kop-surat">
+        <h2>SISTEM PAKAR SKRINING KECANDUAN GAME ONLINE</h2>
+        <p>Pusat Layanan Psikologi & Konseling<br>
+        Email: info@skrining-game.com | Telp: (021) 1234567</p>
+    </div>
 
-    <table class="mb-4">
+    <div class="judul-surat">
+        <h3>SURAT KETERANGAN HASIL SKRINING</h3>
+    </div>
+
+    <p>Berdasarkan hasil skrining yang telah dilakukan, berikut adalah rincian data pengguna:</p>
+
+    <table class="table-info">
         <tr>
-            <td width="150">Nama Lengkap</td>
+            <td>Nama Lengkap</td>
+            <td>:</td>
             <td>{{ $hasil->nama }}</td>
         </tr>
         <tr>
-            <td>No HP</td>
+            <td>No. HP / WhatsApp</td>
+            <td>:</td>
             <td>{{ $hasil->no_hp }}</td>
         </tr>
         <tr>
             <td>Jenis Kelamin</td>
+            <td>:</td>
             <td>{{ $hasil->jenis_kelamin }}</td>
         </tr>
         <tr>
-            <td>Alamat</td>
+            <td>Alamat Lengkap</td>
+            <td>:</td>
             <td>{{ $hasil->alamat }}</td>
         </tr>
         <tr>
             <td>Tanggal Skrining</td>
+            <td>:</td>
             <td>{{ $hasil->created_at->format('d-m-Y H:i') }}</td>
         </tr>
     </table>
 
-    <table class="mt-1">
-        <tr>
-            <td width="150">Gejala yang dipilih</td>
-            <td>
-                @foreach (unserialize($hasil->gejala) as $value)
-                    {{ $value }}<br>
-                @endforeach
-            </td>
-        </tr>
-        <tr>
-            <td width="150">Hasil Skrining </td>
-            <td>{{ $hasil->kecanduan->nama_kecanduan ?? 'Tidak diketahui' }}</td>
-        </tr>
-        <tr>
-            <td width="150">Tingkat Keyakinan </td>
-            <td>{{ $hasil->cf > 0 ? $hasil->cf . '%' : '0' }}</td>
-        </tr>
-        <tr>
-            <td width="150">Solusi Penanganan </td>
-            <td style="white-space: pre-wrap; word-wrap: break-word;">{!! $hasil->kecanduan->solusi ?? '' !!}</td>
-        </tr>
-    </table>
-</body>
+    <div class="section-title">A. Gejala Yang Dialami</div>
+    <ul>
+        @foreach (unserialize($hasil->gejala) as $value)
+            <li>{{ $value }}</li>
+        @endforeach
+    </ul>
 
+    <div class="hasil-box">
+        <h4>KESIMPULAN DIAGNOSA</h4>
+        <table class="table-info">
+            <tr>
+                <td><strong>Tingkat Kecanduan</strong></td>
+                <td>:</td>
+                <td><strong>{{ strtoupper($hasil->kecanduan->nama_kecanduan ?? 'TIDAK DIKETAHUI') }}</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Tingkat Keyakinan (CF)</strong></td>
+                <td>:</td>
+                <td><strong>{{ $hasil->cf > 0 ? $hasil->cf . '%' : '0%' }}</strong></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section-title">B. Solusi dan Penanganan</div>
+    <div style="text-align: justify; margin-top: 5px;">
+        {!! $hasil->kecanduan->solusi ?? '-' !!}
+    </div>
+
+    <div class="clearfix">
+        <div class="signature">
+            <p>Dikeluarkan pada tanggal: {{ date('d F Y') }}<br>
+            Sistem Pakar Skrining</p>
+            
+            <div class="name">Administrator</div>
+        </div>
+    </div>
+</body>
 </html>

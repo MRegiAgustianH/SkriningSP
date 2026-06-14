@@ -156,6 +156,6 @@ class DiagnosisController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $html = view('diagnosis_pdf', compact('gejala', 'solusi', 'nama_kecanduan', 'nilai_cf', 'data_diri', 'hasil'));
         $pdf->loadHTML($html);
-        return $pdf->stream();
+        return $pdf->download('Hasil_Skrining.pdf');
     }
 }

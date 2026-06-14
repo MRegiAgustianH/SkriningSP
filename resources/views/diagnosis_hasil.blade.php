@@ -418,7 +418,7 @@
                 </div>
 
                 <!-- Action Form -->
-                <form method="post" action="{{ route('diagnosis.pdf') }}" target="_blank">
+                <form method="post" action="{{ route('diagnosis.pdf') }}">
                     @csrf
                     {!! Form::hidden('hasil', serialize($hasil)) !!}
                     {!! Form::hidden('gejala', serialize($gejala)) !!}

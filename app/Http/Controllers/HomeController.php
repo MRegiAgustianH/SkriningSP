@@ -14,17 +14,18 @@ class HomeController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
-            $aturan = Aturan::all();
-            $gejala = Gejala::all();
-            $kecanduan = Kecanduan::all();
-            $pengguna = User::all();
+        $profil = Profil::take(1)->first();
+        return view('home', compact('profil'));
+    }
 
-            return view('home_backend', compact('aturan', 'gejala', 'kecanduan', 'pengguna'));
-        } else {
-            $profil = Profil::take(1)->first();
-            return view('home', compact('profil'));
-        }
+    public function dashboard()
+    {
+        $aturan = Aturan::all();
+        $gejala = Gejala::all();
+        $kecanduan = Kecanduan::all();
+        $pengguna = User::all();
+
+        return view('home_backend', compact('aturan', 'gejala', 'kecanduan', 'pengguna'));
     }
 
     public function about()

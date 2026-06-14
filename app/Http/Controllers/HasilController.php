@@ -53,6 +53,6 @@ class HasilController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $html = view('hasil.cetak', compact('hasil'));
         $pdf->loadHTML($html);
-        return $pdf->stream();
+        return $pdf->download('Hasil_Skrining.pdf');
     }
 }

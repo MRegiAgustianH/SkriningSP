@@ -133,7 +133,7 @@
             <a href="{{ route('hasil.index') }}" class="btn btn-modern btn-back mr-2">
                 <i class="fas fa-arrow-left mr-1"></i> Kembali
             </a>
-            <a href="{{ route('hasil.cetak', $hasil->id) }}" target="_blank" class="btn btn-modern btn-print mr-2">
+            <a href="{{ route('hasil.cetak', $hasil->id) }}" class="btn btn-modern btn-print mr-2">
                 <i class="fas fa-print mr-1"></i> Cetak Hasil
             </a>
             <a href="{{ route('hasil.edit', $hasil->id) }}" class="btn btn-modern btn-retest">

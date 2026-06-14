@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/artikel_pengunjung', [HomeController::class, 'artikel'])->name('artikel_pengunjung');
 Route::get('/artikel_pengunjung/show/{artikel}', [HomeController::class, 'artikel_detail'])->name('artikel_pengunjung.detail');
@@ -34,7 +34,7 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', [HomeController::class, 'index', 'panggil'])->name('dashboard')->middleware('auth');
+Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
 Route::get('/password', [PasswordController::class, 'index'])->name('password');
 Route::post('/password/proses', [PasswordController::class, 'proses'])->name('password.proses');
